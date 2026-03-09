@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IB</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #c9c9c9;
+      font-family: monospace;
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 0 20px;
+      overflow-x: hidden;
+    }
+
+    .fish {
+      position: fixed;
+      font-family: monospace;
+      white-space: nowrap;
+      pointer-events: none;
+      color: #333;
+    }
+
+    h1 { color: #fff; font-size: 1rem; margin-bottom: 4px; }
+    .subtitle { color: #555; font-size: 0.85rem; margin-bottom: 40px; }
+
+    .subject {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid #1e1e1e;
+      text-decoration: none;
+      color: #c9c9c9;
+    }
+    .subject:hover { color: #fff; }
+    .subject:hover .num { color: #fff; }
+    .num { color: #444; font-size: 0.8rem; width: 20px; flex-shrink: 0; }
+    .name { flex: 1; }
+    .level { color: #555; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+  <h1>IB Repository</h1>
+  <p class="subtitle">// select a subject</p>
+
+  <a href="chem_index.html" class="subject">
+    <span class="num">01</span>
+    <span class="name">Chemistry</span>
+    <span class="level">SL</span>
+  </a>
+  <a href="bio-sl.html" class="subject">
+    <span class="num">02</span>
+    <span class="name">Computer Science</span>
+    <span class="level">HL</span>
+  </a>
+  <a href="phys-sl.html" class="subject">
+    <span class="num">03</span>
+    <span class="name">Physics</span>
+    <span class="level">HL</span>
+  </a>
+  <a href="maths-sl.html" class="subject">
+    <span class="num">04</span>
+    <span class="name">Math AA</span>
+    <span class="level">HL</span>
+  </a>
+  <a href="english.html" class="subject">
+    <span class="num">05</span>
+    <span class="name">English: Language & Literature</span>
+    <span class="level">SL</span>
+  </a>
+  <a href="history.html" class="subject">
+    <span class="num">06</span>
+    <span class="name">French</span>
+    <span class="level">SL</span>
+  </a>
+
+  <script>
+    const fishTypes = [
+      { right: "><((('>",  left: "<')))><" },
+      { right: ">))>",     left: "<((<"    },
+    ];
+
+    const fish = [
+      { type: 0, dir: 1,  y: 10,  speed: 0.4, x: 10,  wobble: 0,   wobbleSpeed: 0.02 },
+      { type: 1, dir: -1, y: 25,  speed: 0.6, x: 80,  wobble: 1,   wobbleSpeed: 0.03 },
+      { type: 0, dir: 1,  y: 40,  speed: 0.3, x: 30,  wobble: 2,   wobbleSpeed: 0.025 },
+      { type: 1, dir: 1,  y: 55,  speed: 0.7, x: 60,  wobble: 3,   wobbleSpeed: 0.015 },
+      { type: 0, dir: -1, y: 70,  speed: 0.5, x: 20,  wobble: 4,   wobbleSpeed: 0.02 },
+      { type: 1, dir: -1, y: 82,  speed: 0.35,x: 50,  wobble: 5,   wobbleSpeed: 0.03 },
+      { type: 0, dir: 1,  y: 15,  speed: 0.55,x: 70,  wobble: 6,   wobbleSpeed: 0.02 },
+      { type: 1, dir: 1,  y: 48,  speed: 0.45,x: 5,   wobble: 7,   wobbleSpeed: 0.025 },
+      { type: 0, dir: -1, y: 63,  speed: 0.65,x: 90,  wobble: 8,   wobbleSpeed: 0.018 },
+      { type: 1, dir: 1,  y: 90,  speed: 0.4, x: 40,  wobble: 9,   wobbleSpeed: 0.022 },
+      { type: 0, dir: -1, y: 33,  speed: 0.5, x: 15,  wobble: 10,  wobbleSpeed: 0.028 },
+      { type: 1, dir: 1,  y: 75,  speed: 0.6, x: 55,  wobble: 11,  wobbleSpeed: 0.02 },
+    ];
+
+    // create elements
+    const els = fish.map(f => {
+      const el = document.createElement('div');
+      el.className = 'fish';
+      document.body.appendChild(el);
+      return el;
+    });
+
+    let t = 0;
+    function animate() {
+      t += 1;
+      fish.forEach((f, i) => {
+        // move horizontally
+        f.x += f.dir * f.speed * 0.4;
+
+        // bounce off edges
+        if (f.x > 105) { f.x = 105; f.dir = -1; }
+        if (f.x < -5)  { f.x = -5;  f.dir = 1;  }
+
+        // vertical wobble
+        const wobbleY = Math.sin(t * f.wobbleSpeed + f.wobble) * 2;
+
+        els[i].style.left = f.x + 'vw';
+        els[i].style.top  = (f.y + wobbleY) + 'vh';
+
+        const shape = fishTypes[f.type];
+        els[i].textContent = f.dir === 1 ? shape.right : shape.left;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+
+</body>
+</html>
