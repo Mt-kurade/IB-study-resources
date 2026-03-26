@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Markdown Viewer</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div id="content">Loading...</div>
+
+<script>
+  fetch('A3_chapter_review.md') // your markdown file
+    .then(response => response.text())
+    .then(text => {
+      document.getElementById('content').innerHTML = marked.parse(text);
+    });
+</script>
+
+</body>
+</html>
