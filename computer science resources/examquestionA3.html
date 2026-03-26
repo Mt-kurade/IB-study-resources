@@ -1,28 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Markdown Viewer</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      line-height: 1.6;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Markdown Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-<div id="content">Loading...</div>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+        background: #f6f8fa;
+      }
+      #content {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content"></div>
 
-<script>
-  fetch('A3_chapter_review.md') // your markdown file
-    .then(response => response.text())
-    .then(text => {
-      document.getElementById('content').innerHTML = marked.parse(text);
-    });
-</script>
+    <script>
+      const markdown = `
+# A3 Databases review 
+## Questions review 
 
-</body>
+### Question 1.
+A telecommunications company is designing a relational database to store its desk tickets.
+
+The database will have the following tables:
+
+- Operator(OperatorID, OperatorName, Location)
+- Engineer(EngineerID, EngFirstName, EngLastName, EngLocation, Salary)
+- Ticket(TicketNo, Location, Status, OperatorID, TicketDate, TicketPriority)
+- Supplier(SupplierID, Email, PhoneNo)
+- Product(ProductID, ProductName, Price, SupplierID)
+- ProductOrder(TicketNo, OrderID, ProductID, Quantity, EngineerID)
+
+#### a. Identify the primary key for each of the tables described above. [3]
+
+1. Operator: OperatorID  
+2. Engineer: EngineerID  
+3. Ticket: TicketNo  
+4. Supplier: SupplierID  
+5. Product: ProductID  
+6. ProductOrder: TicketNo  
+
+The primary key uniquely identifies each record.
+
+---
+
+#### b. Identify three benefits of a relational database. [3]
+
+Relational databases ensure:
+- High data integrity  
+- Data accuracy  
+- Easy data retrieval  
+
+They use constraints like primary keys, foreign keys, and rules like NOT NULL and UNIQUE.
+
+---
+
+#### d. SQL DDL to create Ticket table:
+
+\`\`\`sql
+CREATE TABLE ticket (
+  TicketNo INT PRIMARY KEY,
+  location1 VARCHAR(255),
+  Status1 VARCHAR(30),
+  OperatorID INT,
+  TicketDate DATE,
+  TicketPriority INT,
+  CONSTRAINT ticket_fk
+  FOREIGN KEY (OperatorID)
+  REFERENCES Operator(OperatorID)
+);
+\`\`\`
+
+---
+
+#### e. SQL to find total product quantity:
+
+\`\`\`sql
+SELECT SUM(quantity) AS total_product
+FROM ProductOrder
+WHERE EngineerID = 'D893';
+\`\`\`
+
+---
+
+#### f. Foreign key:
+SupplierID
+
+---
+
+#### g. Normalization:
+Database is in 3NF (no transitive dependency).
+
+---
+
+### Engineer Table Example
+
+| EngineerID | EngFirstName | EngLastName | EngLocation | Salary |
+|-----------|-------------|-------------|-------------|--------|
+| D893 | Daniel | Buchidan | Trier | 7000 |
+| D894 | Constantin | Constantin | Heidelberg | 6000 |
+| D895 | Martin | Bond | Cologne | 6500 |
+
+---
+
+#### i. Tuple:
+A tuple is a single record (row) in a table.
+
+---
+
+#### j. Fields:
+5
+
+---
+
+#### k. Increase salary:
+
+\`\`\`sql
+UPDATE engineer 
+SET salary = salary + 300 
+WHERE EngineerID = 'D894';
+\`\`\`
+
+---
+
+#### l. Add fields:
+
+\`\`\`sql
+ALTER TABLE engineer 
+ADD COLUMN experience INT,
+ADD COLUMN IncreaseDate DATE;
+\`\`\`
+
+---
+
+#### m. Average salary:
+
+\`\`\`sql
+SELECT AVG(salary) AS avg_salary
+FROM engineer;
+\`\`\`
+
+---
+
+### Question 2:
+A transaction is a sequence of operations.  
+Properties: ACID (Atomicity, Consistency, Isolation, Durability)
+
+---
+
+### Question 3:
+Advantages of views:
+- Data abstraction  
+- Security  
+- Reduced redundancy  
+
+---
+
+### Question 9:
+COMMIT saves changes permanently.
+`;
+
+      document.getElementById('content').innerHTML = marked.parse(markdown);
+    </script>
+  </body>
 </html>
