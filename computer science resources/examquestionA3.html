@@ -5,21 +5,71 @@
     <title>Markdown Viewer</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 40px;
-        line-height: 1.6;
-        background: #f6f8fa;
-      }
-      #content {
-        max-width: 900px;
-        margin: auto;
-        background: white;
-        padding: 40px;
-        border-radius: 10px;
-      }
-    </style>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #c9c9c9;
+      font-family: monospace;
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 0 20px;
+      overflow-x: hidden;
+    }
+
+    .fish {
+      position: fixed;
+      white-space: nowrap;
+      pointer-events: none;
+      color: #333;
+      font-family: monospace;
+    }
+
+    h1 { color: #fff; font-size: 1rem; margin-bottom: 4px; }
+    h2, h3, h4 { color: #fff; font-size: 0.95rem; margin-top: 20px; }
+
+    p { color: #c9c9c9; font-size: 0.85rem; }
+
+    li { font-size: 0.85rem; }
+
+    a { color: #c9c9c9; }
+    a:hover { color: #fff; }
+
+    hr {
+      border: none;
+      border-top: 1px solid #1e1e1e;
+      margin: 20px 0;
+    }
+
+    /* tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid #1e1e1e;
+      padding: 6px;
+      text-align: left;
+    }
+
+    th { color: #888; }
+
+    /* code */
+    pre {
+      background: #111;
+      padding: 10px;
+      overflow-x: auto;
+      border: 1px solid #1e1e1e;
+    }
+
+    code {
+      color: #aaa;
+      font-size: 0.8rem;
+    }
+
+  </style>
   </head>
   <body>
     <div id="content"></div>
@@ -42,48 +92,59 @@ The database will have the following tables:
 - ProductOrder(TicketNo, OrderID, ProductID, Quantity, EngineerID)
 
 #### a. Identify the primary key for each of the tables described above. [3]
+The primary key for each table above is:
+ 1. Operator: OperatorID
+ 2. Engineer: EngineerID
+ 3. Ticket: TicketNo
+ 4. Supplier: SupplierID 
+ 5. Product: ProductID
+ 6. ProductOrder: TicketNo
 
-1. Operator: OperatorID  
-2. Engineer: EngineerID  
-3. Ticket: TicketNo  
-4. Supplier: SupplierID  
-5. Product: ProductID  
-6. ProductOrder: TicketNo  
-
-The primary key uniquely identifies each record.
-
----
+The primary key of table can be identified as it will be the unique identifier for each table. Such as Operator ID will uniquely identify the tuples of the table operator and so on. 
 
 #### b. Identify three benefits of a relational database. [3]
 
-Relational databases ensure:
-- High data integrity  
-- Data accuracy  
-- Easy data retrieval  
+[A realtional database is a collection of data points into tables with rows and columns, allowing them to be related to one another. A relational database is built using a structured query language (SQL) and ensures high data integrity(data reliability, data accuracy, data consistency, data completness)]
 
-They use constraints like primary keys, foreign keys, and rules like NOT NULL and UNIQUE.
 
----
+--- 
+The usage of relational databases ensures high data integrity, scalability and consistancy through a structured format and ACID compliance. 
 
-#### d. SQL DDL to create Ticket table:
+Firstly, realtional databases ensures high data integrity through organizing data in tables with fixed columns (attributes) and rows (tuples). High data integrity is maintained through different levels of schemas used to construct the tables. By establishing elements like the primary key which unqiuely identify each record in a table, foreign keys that are columns in a table that are referenced from other tables and prevent overlapping data values and consitraints like 'not null' to ensure a attribute has a correspond value and 'unqiue' that ensures a value of a column does not repeat in rows. 
+
+Secondaly, data accuracy is ensured through 
+
+--- 
+
+The usage of relational databases ensure data accuracy, improved data secuirity and easy data retrieval. 
+
+Firstly, data accuracy is established in relatioanl databases through rules such as primary and foriegn keys, and constraints that ensure invalid data from being entered. 
+
+Secondly, data security allows onyl authrooized users to access and modify records of tables through database management systems that regulate realtional databases. 
+
+And finally, through the structured query language(SQL) of relational database, records from table can easily be retrieved, modified and added to tables. 
+
+#### c. Construct an ERD for the relational database. [3]
+
+
+#### d. Construct the SQL DDL instructions to create the Ticket table. [1]
 
 \`\`\`sql
 CREATE TABLE ticket (
-  TicketNo INT PRIMARY KEY,
-  location1 VARCHAR(255),
-  Status1 VARCHAR(30),
-  OperatorID INT,
-  TicketDate DATE,
-  TicketPriority INT,
-  CONSTRAINT ticket_fk
-  FOREIGN KEY (OperatorID)
-  REFERENCES Operator(OperatorID)
+                    TicketNo INT PRIMARY KEY,
+                    location1 VARCHAR(255),
+                    Status1 VARCHAR(30),
+                    OperatorID INT,
+                    TicketDate DATE,
+                    TicketPriority INT,
+                    CONSTRAINT ticket_fk
+                    FOREIGN KEY (OperatorID)
+                    REFERENCES Operator(OperatorID)
 );
 \`\`\`
 
----
 
-#### e. SQL to find total product quantity:
+#### e. Construct the SQL DML statements to return the total product quantity ordered by the engineer with the engineer ID D893. [4]
 
 \`\`\`sql
 SELECT SUM(quantity) AS total_product
@@ -91,19 +152,13 @@ FROM ProductOrder
 WHERE EngineerID = 'D893';
 \`\`\`
 
----
+#### f. Identify a foreign key in the Product table. [1]
+A foreign key in the product table would be supplierID which is the primary key of the supplier table. 
 
-#### f. Foreign key:
-SupplierID
+#### g. Describe the characteristics of a database that is in third normal form (3NF). [3]
+A database that is characterised as in third normal form (3NF) is in 1NF and 2NF, and contains no transitive dependency. This means that all non-key attributes depend on only the keys and no non-key attributes. 
 
----
-
-#### g. Normalization:
-Database is in 3NF (no transitive dependency).
-
----
-
-### Engineer Table Example
+### The following table is an example of the **Engineer** table:
 
 | EngineerID | EngFirstName | EngLastName | EngLocation | Salary |
 |-----------|-------------|-------------|-------------|--------|
@@ -111,19 +166,14 @@ Database is in 3NF (no transitive dependency).
 | D894 | Constantin | Constantin | Heidelberg | 6000 |
 | D895 | Martin | Bond | Cologne | 6500 |
 
----
 
-#### i. Tuple:
-A tuple is a single record (row) in a table.
+#### i. Define the term *tuple*. Give an example of a tuple from the Engineer table. [2]
+A tuples is a record input into the database that represents information corresponding to each attribute of a table. From the engineering table provided above, a tuple would be the record of engineer Martin Bond, whose Engieer ID, first name, last name, location and salary are provided and stored in the engineer table.
 
----
+#### j. State the number of fields in the Engineer table. [1]
+The number of fields are 5. 
 
-#### j. Fields:
-5
-
----
-
-#### k. Increase salary:
+#### k. Construct an SQL statement to increase the salary of the engineer with the ID D894 by 300. [2]
 
 \`\`\`sql
 UPDATE engineer 
@@ -131,9 +181,10 @@ SET salary = salary + 300
 WHERE EngineerID = 'D894';
 \`\`\`
 
----
+#### l. Construct SQL statements to update the Engineer table to include two more fields:
 
-#### l. Add fields:
+- one called "Experience", to store how many years of experience each engineer has  
+- one called "IncreaseDate", which includes the date when the last salary raise occurred  
 
 \`\`\`sql
 ALTER TABLE engineer 
@@ -143,7 +194,7 @@ ADD COLUMN IncreaseDate DATE;
 
 ---
 
-#### m. Average salary:
+#### m. Construct an SQL script to find the average salary in the Engineer table. [2]
 
 \`\`\`sql
 SELECT AVG(salary) AS avg_salary
@@ -152,25 +203,75 @@ FROM engineer;
 
 ---
 
-### Question 2:
-A transaction is a sequence of operations.  
-Properties: ACID (Atomicity, Consistency, Isolation, Durability)
+#### Question 2. State what a transaction is and identify four properties that define a transaction. [2]
+A transaction is a sequence of SQL operations that are executed as a single unit of work in a database. The four properties that define a transaction is ACID, an acronyme for Atomicity, consistency, isolation and durability. 
 
----
 
-### Question 3:
-Advantages of views:
-- Data abstraction  
-- Security  
-- Reduced redundancy  
+#### Question 3. Identify three advantages of using views for a database. [3]
+A view is a saved query that behaves like a table, it shows data form one or more tables. The advatages of using views include data abstraction, restricted user access, and reduced redundecy in queries. 
 
----
+#### Question 4. Explain three data mining techniques. [6]
 
-### Question 9:
-COMMIT saves changes permanently.
+
+#### Question 5. Compare cloud and spatial databases. [4]
+
+
+#### Question 6. Describe two features of distributed databases. [2]
+
+
+#### Question 7. Identify and compare a NoSQL database with a relational database. [4]
+
+
+#### Question 8. Explain the role of online analytical processing (OLAP) in business intelligence. [3]
+
+
+#### Question 9. Explain the COMMIT transaction control language (TCL) command. [1]
+The COMMIT command part of TCL or Transaction control language and saves all changes made to a table within a database. Once this operation is performed, the changes are permanent and visible to other users.
 `;
 
       document.getElementById('content').innerHTML = marked.parse(markdown);
     </script>
+    <script>
+      const fishTypes = [
+        { right: "><((('>",  left: "<')))><" },
+        { right: ">))>",     left: "<((<"    },
+      ];
+
+      const fish = [
+        { type: 0, dir: 1, y: 20, speed: 0.4, x: 10, wobble: 0, wobbleSpeed: 0.02 },
+        { type: 1, dir: -1, y: 50, speed: 0.6, x: 80, wobble: 1, wobbleSpeed: 0.03 },
+        { type: 0, dir: 1, y: 75, speed: 0.3, x: 30, wobble: 2, wobbleSpeed: 0.025 },
+      ];
+
+      const els = fish.map(() => {
+        const el = document.createElement('div');
+        el.className = 'fish';
+        document.body.appendChild(el);
+        return el;
+      });
+
+      let t = 0;
+      function animate() {
+        t += 1;
+        fish.forEach((f, i) => {
+          f.x += f.dir * f.speed * 0.4;
+
+          if (f.x > 105) { f.x = 105; f.dir = -1; }
+          if (f.x < -5)  { f.x = -5;  f.dir = 1; }
+
+          const wobbleY = Math.sin(t * f.wobbleSpeed + f.wobble) * 2;
+
+          els[i].style.left = f.x + 'vw';
+          els[i].style.top  = (f.y + wobbleY) + 'vh';
+
+          const shape = fishTypes[f.type];
+          els[i].textContent = f.dir === 1 ? shape.right : shape.left;
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+      </script>
   </body>
 </html>
